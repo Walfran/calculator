@@ -1,0 +1,146 @@
+*,
+*::before,
+*::after {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    background-color: rgb(144, 133, 118);
+    min-height: 100vh;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+nav {
+    min-height: 60px;
+    background-color: antiquewhite;
+    box-shadow: 
+        0 0 0 5px #5a423c,
+        inset 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.calculator-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 95px);
+    grid-template-rows: minmax(150px, auto) repeat(5, 95px);
+    gap: 10px;
+    background-color: rgba(115, 85, 78, 0.908);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 
+        0 0 0 10px #5a423c,
+        inset 0 0 20px rgba(0, 0, 0, 0.2);
+    border: 2px solid #463330;
+}
+
+.display {
+    grid-column: 1 / -1;
+    background-color: #c3c9bb;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: space-around;
+    padding: 20px;
+    word-wrap: break-word;
+    word-break: break-all;
+    min-height: 150px;
+    min-width: 400px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    box-shadow: 
+        inset 0 0 10px rgba(0, 0, 0, 0.3),
+        inset 0 0 2px rgba(0, 0, 0, 0.5);
+    font-family: 'Calculator', monospace;
+}
+
+.previous-operand {
+    color: rgba(0, 0, 0, 0.75);
+    font-size: 2rem;
+    min-height: 2rem;
+}
+
+.current-operand {
+    color: black;
+    font-size: 3.5rem;
+    min-height: 3.5rem;
+}
+
+div {
+    margin: 0 auto;
+}
+
+#reset,
+#correction {
+    background-color: rgb(180, 43, 19);
+    color:white;
+}
+
+#multiplication,
+#addition,
+#subtraction,
+#division,
+#equal {
+    background-color: rgb(48, 48, 83);
+    color:white;
+}
+
+button {
+    width: 100%;
+    height: 100%;
+    border-radius: 10%;
+    font-size: 2.5em;
+    border: none;
+    background-color: #f0f0f0;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 
+        0 5px 10px rgba(0, 0, 0, 0.2),
+        inset 0 -4px 5px rgba(0, 0, 0, 0.1);
+}
+
+button:hover {
+    background-color: #e0e0e0;
+    transform: translateY(2px);
+    box-shadow: 
+        0 3px 6px rgba(0, 0, 0, 0.2),
+        inset 0 -2px 3px rgba(0, 0, 0, 0.1);
+}
+
+button:active {
+    transform: translateY(4px);
+    box-shadow: 
+        0 1px 2px rgba(0, 0, 0, 0.2),
+        inset 0 -1px 2px rgba(0, 0, 0, 0.1);
+}
+
+footer {
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 60px;
+    background-color: antiquewhite;
+    width: 100%;
+}
+
+.footer {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1rem;
+    font-weight: 500;
+}
