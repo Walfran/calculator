@@ -1,42 +1,48 @@
-// Basic math functions
-function add(a, b) {
+// Error Handling
+function errorNote(a, b){
 	if (typeof a !== 'number' || typeof b !== 'number') {
 		alert('Both arguments must be numbers');
 	}
+	return a, b;  
+}
+
+function errorNoteOneDigit(a){
+	if (typeof a !== 'number') {
+		alert('The argument must be a number');
+	}
+	return a;  
+}
+
+// Basic math functions
+function add(a, b) {
+	errorNote(a, b);
 	return a + b;
 }
 
 function subtract(a, b) {
-	if (typeof a !== 'number' || typeof b !== 'number') {
-		alert('Both arguments must be numbers');
-	}
+	errorNote(a, b);
 	return a - b;
 }
 
-function sum(arr) {
-	if (!Array.isArray(arr)) {
-		alert('Argument must be an array');
-	}
-	if (arr.length === 0) return 0;
-	return arr.reduce((acc, curr) => {
-		if (typeof curr !== 'number') {
-			alert('All array elements must be numbers');
-		}
-		return acc + curr;
-	}, 0);
+function divide(a, b) {
+	errorNote(a, b);
+	if (b === 0) return 'Error';
+	return a / b;
 }
 
-function multiply(arr) {
-	if (!Array.isArray(arr)) {
-		alert('Argument must be an array');
-	}
-	if (arr.length === 0) return 1;
-	return arr.reduce((acc, curr) => {
-		if (typeof curr !== 'number') {
-			alert('All array elements must be numbers');
-		}
-		return acc * curr;
-	}, 1);
+function multiply(a, b) {
+	errorNote(a, b);
+	return a * b;
+}
+
+function root(a){
+	errorNoteOneDigit(a);
+	return Math.sqrt(a);
+}
+
+function powerOf(a, b){
+	errorNote(a, b);
+	return Math.pow(a, b);
 }
 
 // Calculator variables
@@ -52,7 +58,12 @@ const previousDisplay = document.querySelector('.previous-operand');
 // Update what's shown on calculator screen
 function updateScreen() {
 	currentDisplay.textContent = currentNumber;
-	previousDisplay.textContent = previousNumber;
+
+	if (currentOperation !== null && previousNumber !== '') {
+		previousDisplay.textContent = `${previousNumber} ${currentOperation}`;
+	} else {
+		previousDisplay.textContent = previousNumber;
+	}
 }
 
 // Handle when a number button is clicked
@@ -61,7 +72,21 @@ function handleNumber(number) {
 		currentNumber = number;
 		needToClearScreen = false;
 	} else {
-		currentNumber = currentNumber === '0' ? number : currentNumber + number;
+		if (currentNumber === '0') {
+		currentNumber = number; // Replace the 0 with the new number
+		} else {
+		currentNumber += number; // Add the new digit to the end
+		}
+	}
+	updateScreen();
+}
+
+function handleDecimal() {
+	if (needToClearScreen) {
+		currentNumber = '0.';
+		needToClearScreen = false;
+	} else if (!currentNumber.includes('.')) { //adds . and block the user from adding more
+		currentNumber += '.'; 
 	}
 	updateScreen();
 }
@@ -96,9 +121,20 @@ function calculate() {
 		case '/':
 			result = divide(num1, num2);
 			break;
+		case '√':
+			result = root(num1)
+			break;
+		case '^':
+			result = powerOf(num1, num2);
+			break;
 	}
 
-	currentNumber = result.toString();
+	// adding decimals for better clarity
+	if (typeof result === 'number' && !isNaN(result)){
+		currentNumber = parseFloat(result.toFixed(3)).toString();
+	} else {
+		currentNumber = 'Not a number'
+	}
 	currentOperation = null;
 	previousNumber = '';
 	updateScreen();
@@ -137,9 +173,13 @@ document.addEventListener('DOMContentLoaded', () => {
 	document.getElementById('subtraction').addEventListener('click', () => handleOperator('-'));
 	document.getElementById('multiplication').addEventListener('click', () => handleOperator('*'));
 	document.getElementById('division').addEventListener('click', () => handleOperator('/'));
+	document.getElementById('root').addEventListener('click', () => handleOperator('√'));
+	document.getElementById('powerOf').addEventListener('click', () => handleOperator('^'));
 
+ 
 	// Add handlers for special buttons
 	document.getElementById('reset').addEventListener('click', clearCalculator);
 	document.getElementById('correction').addEventListener('click', deleteNumber);
 	document.getElementById('equal').addEventListener('click', calculate)
+	document.getElementById('decimal').addEventListener('click', handleDecimal);
 });
